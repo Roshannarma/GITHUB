@@ -3,7 +3,7 @@ import os
 import neat
 # import random
 import visualize
-import evaluation
+import evaluation2
 import pickle
 # import multiprocessing
 # import time
@@ -31,7 +31,7 @@ def run(config_file):
     config_path = os.path.join(local_dir, 'checkpoints\\CHK-')
     p.add_reporter(neat.Checkpointer(5,filename_prefix=config_path))
 
-    winner = p.run(evaluation.eval_genomes, 10000)
+    winner = p.run(evaluation2.eval_genomes, 100)
 
     print('\nBest genome:\n{!s}'.format(winner))
 
