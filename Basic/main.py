@@ -3,7 +3,7 @@ import os
 import neat
 import random
 import visualize
-
+import multiprocessing
 # 2-input XOR inputs and expected outputs.
 # xor_inputs = [(0.0, 0.0), (0.0, 1.0), (1.0, 0.0), (1.0, 1.0)]
 # xor_outputs = [   (0.0,),     (1.0,),     (1.0,),     (0.0,)]
@@ -35,6 +35,31 @@ def eval_genome(genome,config):
             if flips == guess:
                 genome.fitness += 1
     return genome.fitness
+
+# jit()
+# def eval_genomes(genomes,config):
+#     for genome_id, genome in genomes:
+#         genome.fitness = 0
+#         net = neat.nn.FeedForwardNetwork.create(genome, config)
+#         for i in range(10000):
+#             x = random.randint(5,15)
+#             guess = random.randint(0,x)
+#             flips = coinflip(x)
+#             output = net.activate((x,guess))
+#             end_index = output.index(max(output))
+#             if end_index == 0:
+#                 if flips>guess:
+#                     genome.fitness += 1
+#             elif end_index==1:
+#                 if flips < guess:
+#                     genome.fitness += 1
+#             else:
+#                 if flips == guess:
+#                     genome.fitness += 1
+        # return genome.fitness
+
+
+
 #
 # def eval_genomes(genomes, config):
 #     for genome_id, genome in genomes:
@@ -76,12 +101,13 @@ def run(config_file):
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(5,filename_prefix="HighLowCheckpoint-"))
+    p.add_reporter(neat.Checkpointer(5,filename_prefix="C:\\Users\\rosha\\github\\GITHUB\\checkpoints\\HighLowCheckpoint-"))
+    # p.add_reporter(neat.Checkpointer(5,filename_prefix="C:\\Users\\rosha\\github\\GITHUB\\HighLowCheckpoint-"))
 
     # Run for up to 300 generations.
-
-    pe = neat.ParallelEvaluator(16, eval_genome)
-    winner = p.run(pe.evaluate, 5)
+    # print(multiprocessing.gpu_count())
+    pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
+    winner = p.run(pe.evaluate, 25)
     # winner = p.run(eval_genomes, 10)
 
     # Display the winning genome.
@@ -96,7 +122,7 @@ def run(config_file):
 
     # node_names = {-1:'A', -2: 'B', 0:'A XOR B'}
     # visualize.draw_net(config, winner, True, node_names=node_names)
-    visualize.plot_stats(stats, ylog=False, view=True)
+    # visualize.plot_stats(stats, ylog=False, view=True)
     # visualize.plot_species(stats, view=True)
 
     # p = neat.Checkpointer.restore_checkpoint('HighLowCheckpoint-4')

@@ -1,0 +1,37 @@
+inputs to network:
+headCount
+passCount
+currentBet
+
+Player:
+info = PlayerInfo
+neural = neural network
+
+
+
+PlayerInfo:
+headCount = integer
+wins = integer
+
+
+
+gameInfo:
+passCount = integer
+currentBet = integer
+currentBetPlayer = id
+gameEnd= endDict
+totalHeads = int
+
+
+
+endDict:
+end = boolean
+curPlayerwins = boolean
+curPlayer = id
+
+
+
+OUTPUTS:
+0:pass
+1:raise
+2:BS
