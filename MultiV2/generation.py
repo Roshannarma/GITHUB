@@ -89,7 +89,7 @@ def removeDeadPlayers(Players,gameInfo):
 
 def findAlive(Players,startID):
     for i in range(len(Players)):
-        id = (startID+i)%4
+        id = (startID+i)%len(Players)
         if Players[id]["alive"]:
             return id
     print("this broke")

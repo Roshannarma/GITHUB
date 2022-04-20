@@ -30,12 +30,18 @@ def run(config_file):
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'checkpoints\\CHK-')
     p.add_reporter(neat.Checkpointer(5,filename_prefix=config_path))
+    ITERATIONS = 20
 
-    winner = p.run(evaluation2.eval_genomes, 100)
+    winner = p.run(evaluation2.eval_genomes, ITERATIONS)
 
     print('\nBest genome:\n{!s}'.format(winner))
 
-    with open("C:\\Users\\rosha\\github\\GITHUB\\MultiV1\\results\\winner.pkl", "wb") as f:
+    local_dir = os.path.dirname(__file__)
+    finalPath = os.path.join(local_dir,f"results\\winner{ITERATIONS}.pkl")
+    # config_path = os.path.join(local_dir, 'config')
+
+
+    with open(finalPath, "wb") as f:
         pickle.dump(winner, f)
         f.close()
 

@@ -2,10 +2,10 @@ from __future__ import print_function
 import os
 import neat
 import random
-# import visualize
+import visualize
 # import evaluation
 import pickle
-VALUES = {0:"pass", 1:"Raise", 2:"BS"}
+VALUES = {0:"pass", 1:"Raise", 2:"BS",-1:"headCount",-2:"currentCoins",-3:"passCount",-4:"currentBet",-5:"totalCoins",-6:"playersAlive"}
 def coinflip(amount):
     result = 0
     for _ in range(amount):
@@ -20,7 +20,7 @@ def run(config_file,genome_path):
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_file)
 
-    with open("C:\\Users\\rosha\\github\\GITHUB\\MultiV1\\results\\winner.pkl", "rb") as f:
+    with open(genome_path, "rb") as f:
         genome = pickle.load(f)
 
     # genomes = [(1, genome)]
@@ -30,21 +30,43 @@ def run(config_file,genome_path):
     # result = {0:0,1:0,2:0}
     net = neat.nn.FeedForwardNetwork.create(genome, config)
 
-    for i in range(1000):
-        currentCoins = random.randint(1,5)
-        headCount = coinflip(currentCoins)
-
-        passCount = random.randint(0,2)
-
-        playersAlive = random.randint(2+passCount,4)
-
-        totalCoins = random.randint(currentCoins+playersAlive,20-(5-currentCoins))
-        currentBet = random.randint(1,totalCoins)
+    currentCoins = 5
+    headCount = 0
+    passCount = 0
+    playersAlive = 4
+    for i in range(5,16+currentCoins):
+        totalCoins = i
+        currentBet = i-4
+        # currentBet = random.randint(1,totalCoins)
 
         output = net.activate((currentCoins,headCount,passCount,currentBet,totalCoins,playersAlive))
         end_index = output.index(max(output))
-        # if(end_index ==2):
+
         print(f"output: {VALUES[end_index]} | currentCoins: {currentCoins} | headCount: {headCount} | passCount: {passCount} | totalCoins: {totalCoins} | currentBet: {currentBet} | playersAlive: {playersAlive}")
+
+
+    visualize.draw_net(config, genome, True,node_names = VALUES)
+        # headCount = coinflip(currentCoins)
+        # passCount = 0
+        # passCount = random.randint(0,2)
+
+
+
+    # for i in range(1000):
+        # currentCoins = random.randint(1,5)
+        # headCount = coinflip(currentCoins)
+        #
+        # passCount = random.randint(0,2)
+        #
+        # playersAlive = random.randint(2+passCount,4)
+        #
+        # totalCoins = random.randint(currentCoins+playersAlive,20-(5-currentCoins))
+        # currentBet = random.randint(1,totalCoins)
+
+        # output = net.activate((currentCoins,headCount,passCount,currentBet,totalCoins,playersAlive))
+        # end_index = output.index(max(output))
+        # if(end_index ==2):
+        # print(f"output: {VALUES[end_index]} | currentCoins: {currentCoins} | headCount: {headCount} | passCount: {passCount} | totalCoins: {totalCoins} | currentBet: {currentBet} | playersAlive: {playersAlive}")
         # print(f" headCount: {headCount} | passCount: {passCount} | currentBet: {currentBet} | output: {VALUES[end_index]}")
         # result[end_index] += 1
     # print(result)
@@ -90,5 +112,5 @@ def run(config_file,genome_path):
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config')
-    genome_path = os.path.join(local_dir,"results\\winner.pkl")
+    genome_path = os.path.join(local_dir,"results\\winner20.pkl")
     run(config_path,genome_path)

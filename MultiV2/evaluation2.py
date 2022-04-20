@@ -10,7 +10,7 @@ COINS = 5
 def make_action(Player,roundInfo,gameInfo):
     if roundInfo["currentBetPlayer"] == Player["id"] and roundInfo["passCount"] > 0:
         roundInfo["roundDict"]["roundEnd"] = True
-        roundInfo["roundDict"]["roundWon"] = True
+        roundInfo["roundDict"]["roundLost"] = False
         roundInfo["roundDict"]["roundEnder"] = Player["id"]
         return roundInfo
 
@@ -36,7 +36,7 @@ def make_action(Player,roundInfo,gameInfo):
             roundInfo["currentBet"] += 1
             if roundInfo["currentBet"] > roundInfo["totalCounts"]:
                 roundInfo["roundDict"]["roundEnd"] = True
-                roundInfo["roundDict"]["roundWon"] = False
+                roundInfo["roundDict"]["roundLost"] = True
                 roundInfo["roundDict"]["roundEnder"] = Player["id"]
                 return roundInfo
             roundInfo["passCount"] = 0
@@ -47,11 +47,11 @@ def make_action(Player,roundInfo,gameInfo):
     elif end_index == 2:
         if(roundInfo["currentBet"] > roundInfo["totalHeads"]):
             roundInfo["roundDict"]["roundEnd"] = True
-            roundInfo["roundDict"]["roundWon"] = False
+            roundInfo["roundDict"]["roundLost"] = True
             roundInfo["roundDict"]["roundEnder"] = roundInfo["currentBetPlayer"]
         else:
             roundInfo["roundDict"]["roundEnd"] = True
-            roundInfo["roundDict"]["roundWon"] = False
+            roundInfo["roundDict"]["roundLost"] = True
             roundInfo["roundDict"]["roundEnder"] = Player["id"]
         return roundInfo
     else:
@@ -101,12 +101,16 @@ def play_game(Players,gameInfo):
         roundInfo = play_round(Players,roundInfo,gameInfo)
         if roundInfo["roundDict"]["roundEnd"]:
             id = roundInfo["roundDict"]["roundEnder"]
-            if roundInfo["roundDict"]["roundWon"]:
+            # print(roundInfo)
+            if roundInfo["roundDict"]["roundLost"]:
+                Players[id]["currentCoins"] -= 1
+                # for i in range(len(Players)):
+                #     if i!=id:
+                #         Players[i]["currentCoins"] -= 1
+            else:
                 for i in range(len(Players)):
                     if i!=id:
                         Players[i]["currentCoins"] -= 1
-            else:
-                Players[id]["currentCoins"] -= 1
             # gameInfo["StartingID"] = gp.findAlive(Players,id)
             Players,gameInfo = gp.removeDeadPlayers(Players,gameInfo)
             gameInfo["StartingID"] = gp.findAlive(Players,id)
@@ -154,7 +158,6 @@ def eval_group(genomes,config):
 
 
 def eval_genomes(genomes,config):
-    genomes = genomes[0:64]
     genomeChunks = []
     chunk_size = 4
     for i in range(0, len(genomes), chunk_size):
@@ -162,12 +165,54 @@ def eval_genomes(genomes,config):
     part_group = partial(eval_group,config=config)
     pool = multiprocessing.Pool()
     genomeChunks = pool.map(part_group,genomeChunks)
-    print(genomeChunks)
     pool.close()
+    WinnersBracket = []
+    if len(genomeChunks)>=16:
+        for genomeChunk in genomeChunks:
+            winner = -1
+            value = 0
+            loc = -1
+            for genome_id,genome in genomeChunk:
+                loc += 1
+                if genome.fitness > value:
+                    winner = loc
+                    value = genome.fitness
+            WinnersBracket.append(genomeChunk[winner])
+        eval_genomes(WinnersBracket,config)
+        for genome_id,genome in WinnersBracket:
+            genome.fitness += 100
+        # for genome_id,genome in WinnersBracket:
+        #     genome.fitness = 100
+    elif len(genomeChunks)>=4:
+        for genomeChunk in genomeChunks:
+            winner = -1
+            value = 0
+            loc = -1
+            for genome_id,genome in genomeChunk:
+                loc += 1
+                if genome.fitness > value:
+                    winner = loc
+                    value = genome.fitness
+            WinnersBracket.append(genomeChunk[winner])
+
+        eval_genomes(WinnersBracket,config)
+        for genome_id,genome in WinnersBracket:
+            genome.fitness += 100
+        # for genome_id,genome in WinnersBracket:
+        #     genome.fitness = 200
+            # print(genome.fitness)
+            # print(genome.fitness)
+        # print(genomeChunk)
+
+    numGenomes = len(genomes)
     for i in range(0, len(genomeChunks), 1):
         for x in range(0,chunk_size,1):
-            # print(genomeChunks[i][x][1])
-            # print(genomes[(chunk_size*i)+x][1].fitness)
-            # print(genomes[(chunk_size*i)+x])
-            # print(genomeChunks[i][x][1])
+            if numGenomes <= (chunk_size*i)+x:
+                break
             genomes[(chunk_size*i)+x][1].fitness = genomeChunks[i][x][1].fitness
+    # print("finished chunk")
+
+    return genomes
+
+
+# if __name__ == "__main__":
