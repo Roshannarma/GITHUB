@@ -136,7 +136,7 @@ def eval_group(genomes,config):
         i += 1
     order = 0
     scoreList = [0]*len(genomes)
-    for _ in range(100):
+    for _ in range(1000):
         Players = gp.resetPlayers(Players,COINS)
         gameInfo = gp.game(Players,order)
         gameInfo = play_game(Players,gameInfo)
@@ -180,7 +180,7 @@ def eval_genomes(genomes,config):
             WinnersBracket.append(genomeChunk[winner])
         eval_genomes(WinnersBracket,config)
         for genome_id,genome in WinnersBracket:
-            genome.fitness += 100
+            genome.fitness += 1000
         # for genome_id,genome in WinnersBracket:
         #     genome.fitness = 100
     elif len(genomeChunks)>=4:
@@ -197,7 +197,7 @@ def eval_genomes(genomes,config):
 
         eval_genomes(WinnersBracket,config)
         for genome_id,genome in WinnersBracket:
-            genome.fitness += 100
+            genome.fitness += 1000
         # for genome_id,genome in WinnersBracket:
         #     genome.fitness = 200
             # print(genome.fitness)

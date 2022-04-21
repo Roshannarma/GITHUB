@@ -30,7 +30,7 @@ def run(config_file):
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'checkpoints\\CHK-')
     p.add_reporter(neat.Checkpointer(5,filename_prefix=config_path))
-    ITERATIONS = 20
+    ITERATIONS = 15
 
     winner = p.run(evaluation2.eval_genomes, ITERATIONS)
 

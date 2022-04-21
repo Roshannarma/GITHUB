@@ -62,13 +62,3 @@ OUTPUTS:
 0:pass
 1:raise
 2:BS
-
-
-
-
-
-
-garbage:
-end = boolean
-curPlayerwins = boolean
-curPlayer = id

@@ -27,23 +27,23 @@ def run(config_file,genome_path):
     print(genome)
 
 
-    # result = {0:0,1:0,2:0}
+    result = {0:0,1:0,2:0}
     net = neat.nn.FeedForwardNetwork.create(genome, config)
 
-    currentCoins = 5
-    headCount = 0
+    currentCoins = 1
+    headCount = 1
     passCount = 0
     playersAlive = 4
     for i in range(5,16+currentCoins):
         totalCoins = i
         currentBet = i-4
-        # currentBet = random.randint(1,totalCoins)
+        currentBet = random.randint(1,totalCoins)
 
         output = net.activate((currentCoins,headCount,passCount,currentBet,totalCoins,playersAlive))
         end_index = output.index(max(output))
 
-        print(f"output: {VALUES[end_index]} | currentCoins: {currentCoins} | headCount: {headCount} | passCount: {passCount} | totalCoins: {totalCoins} | currentBet: {currentBet} | playersAlive: {playersAlive}")
 
+        print(f"output: {VALUES[end_index]} | currentCoins: {currentCoins} | headCount: {headCount} | passCount: {passCount} | totalCoins: {totalCoins} | currentBet: {currentBet} | playersAlive: {playersAlive}")
 
     visualize.draw_net(config, genome, True,node_names = VALUES)
         # headCount = coinflip(currentCoins)
@@ -52,7 +52,7 @@ def run(config_file,genome_path):
 
 
 
-    # for i in range(1000):
+    # for i in range(10):
         # currentCoins = random.randint(1,5)
         # headCount = coinflip(currentCoins)
         #
@@ -112,5 +112,5 @@ def run(config_file,genome_path):
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config')
-    genome_path = os.path.join(local_dir,"results\\winner20.pkl")
+    genome_path = os.path.join(local_dir,"results\\winner15.pkl")
     run(config_path,genome_path)
