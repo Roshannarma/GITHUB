@@ -1,0 +1,59 @@
+inputs to network:
+headCount = integer
+currentCoins = integer
+
+currentBet = integer
+TotalCoins = integer
+
+playersAlive = integer
+
+
+
+
+
+
+
+
+Player :
+headCount = integer
+currentCoins = integer
+alive = boolean
+id = integer
+neural = neural network
+
+
+
+gameInfo:
+playersAlive = integer
+gameDict = Dict
+startingID = integer
+
+gameDict:
+gameEnd = boolean
+gameWinner = id
+
+
+
+
+
+
+roundInfo:
+currentBet = integer
+currentBetPlayer = id
+totalHeads = integer
+totalCounts = integer
+roundDict = Dict
+
+roundDict:
+roundEnd = boolean
+roundWon = boolean
+roundEnder = id
+
+
+
+
+
+OUTPUTS:
+0:exact
+1:raise
+2:BS
