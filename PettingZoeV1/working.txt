@@ -1,0 +1,29 @@
+Input
+
+# total number of Dice
+# of 1's
+# of 2's
+# of 3's
+# of 4's
+# of 5's
+# of 6's
+# of players left
+
+#current bet pip
+#current bet number
+
+
+Outputs:
+
+# bet pip
+# bet number
+
+
+
+GamePlay Loop:
+
+Player 1 makes inital bet       --- boolean to determine if first player
+
+bet contains number of dice and pip on Dice
+
+Player 2 takes in input of bet(number of dice and pip on dice)
