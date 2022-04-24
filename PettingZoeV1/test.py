@@ -80,6 +80,15 @@ def run(config_file,genome_path):
         # passCount = 0
         # passCount = random.randint(0,2)
 
+    for i in range(10):
+        num = random.randint(10,20)
+        dies = [random.randint(0,num//3) for i in range(6)]
+        playersLeft = random.randint(2,4)
+        newList = [0]*6
+        newList[[random.randint(5)]] = 1
+        currentBet = random.randint(1,20)
+
+        net.activate(num,*dies,playersLeft,*newList,currentBet)
 
 
     # for i in range(100):

@@ -42,8 +42,8 @@ def make_action(player,roundInfo,gameInfo):
     if (VALUES[action] == "RAISE"):
         betPip = output.index(max(output[3:-1]))-2
         betNumber = round(20*output[-1])
-        print(betNumber)
-        # if(o)>1:
+        # print(betNumber)
+        # if(betNumber!=0 and betNumber != 20):
             # print(betNumber)
 
         if betNumber < roundInfo["betNumber"] or (betNumber == roundInfo["betNumber"] and betPip <= roundInfo["betPip"]):
