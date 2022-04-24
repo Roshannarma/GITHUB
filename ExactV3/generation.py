@@ -35,11 +35,11 @@ def rerollPlayer(Player):
     return Player
 
 def game(Players,initialId):
-    totalHeads = 0
-    totalCounts = 0
-    for i in range(len(Players)):
-        totalHeads += Players[i]["headCount"]
-        totalCounts += Players[i]["currentCoins"]
+    # totalHeads = 0
+    # totalCounts = 0
+    # for i in range(len(Players)):
+    #     totalHeads += Players[i]["headCount"]
+    #     totalCounts += Players[i]["currentCoins"]
     return{
     "gameDict":{
     "gameEnd":False,
@@ -50,9 +50,9 @@ def game(Players,initialId):
     }
 
 def round(Players,initialId):
-    totalHeads = 0
-    totalCounts = 0
-    playersAlive = 0
+    totalHeads,totalCounts,playersAlive = 0
+    # totalCounts = 0
+    # playersAlive = 0
     for i in range(len(Players)):
         totalHeads += Players[i]["headCount"]
         totalCounts += Players[i]["currentCoins"]

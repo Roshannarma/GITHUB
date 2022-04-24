@@ -9,7 +9,13 @@ Input
 # of 6's
 # of players left
 
-#current bet pip
+# outputs for pips:
+  is1
+  is2
+  is3
+  is4
+  is5
+  is6
 #current bet number
 
 
@@ -27,3 +33,93 @@ Player 1 makes inital bet       --- boolean to determine if first player
 bet contains number of dice and pip on Dice
 
 Player 2 takes in input of bet(number of dice and pip on dice)
+
+
+Data storage:
+
+network inputs:
+# total number of Dice
+# of 1's
+# of 2's
+# of 3's
+# of 4's
+# of 5's
+# of 6's
+# of players left
+
+# outputs for pips:
+  is1
+  is2
+  is3
+  is4
+  is5
+  is6
+#current bet number
+
+
+network outputs:
+0: RAISE ->
+ # outputs for pips:
+ is1
+ is2
+ is3
+ is4
+ is5
+ is6
+ # of dice is 1 output
+1: BS
+2: EXACT
+
+
+x = output.index(max(output[0:2]))
+
+if x ==0:
+  y = output.index(max(output[3:9]))
+
+
+
+Player info:
+id: ID
+currentDice: list of integer
+numDice: integer
+alive: boolean
+neural: neural network
+
+
+
+
+
+Round info:
+betNumber = integer
+betPip = integer
+betPlayer = id
+totalDice = integer
+playersAlive = integer
+dice = dictionary
+result = dictionary
+
+dice:
+1:integer
+2:integer
+3:integer
+4:integer
+5:integer
+6:integer
+
+result:
+end = boolean
+lost = boolean
+ender = ID
+
+
+Game info:
+startID: ID
+numPlayers = integer
+result: dictionary
+
+result:
+end: boolean
+winner: ID
+
+
+Outputs:
