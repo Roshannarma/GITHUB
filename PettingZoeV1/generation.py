@@ -1,12 +1,28 @@
 import random
 import neat
+from numba import jit,cuda
+import timeit
 
+# @jit(nopython=True)
 def rollDice(amount):
     diceList = [0]*6
     for _ in range(amount):
         num = random.randint(0,5)
         diceList[num] += 1
     return diceList
+
+# @jit(nopython=True)
+# def rollDiceFast(amount):
+#     diceList = [0]*6
+#     for _ in range(amount):
+#         num = random.randint(0,5)
+#         diceList[num] += 1
+#     return diceList
+
+
+# %timeit rollDice(6)
+
+# %timeit rollDiceFast(6)
 
 
 def player(genome,config,amount,id):

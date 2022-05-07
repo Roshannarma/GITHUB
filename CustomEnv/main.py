@@ -33,9 +33,8 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(5,filename_prefix=config_path))
     ITERATIONS = int(input("What number of iterations do you want?:\n"))
     # ITERATIONS = 15
-
     temp = LDice.LDice(config)
-    winner = p.run(temp.eval_genomes, ITERATIONS)
+    winner = p.run(temp.eval_genomes2, ITERATIONS)
 
     print('\nBest genome:\n{!s}'.format(winner))
 

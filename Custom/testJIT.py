@@ -93,9 +93,9 @@ def increment_by_one(rng_states, iterations, an_array):
     if (pos%4!=0): return
     if pos < an_array.size:
         an_array[pos] = getRandom(rng_states,pos)
-        an_array[pos+1] = getRandom(rng_states,pos)
-        an_array[pos+2] = getRandom(rng_states,pos)
-        an_array[pos+3] = getRandom(rng_states,pos)
+        an_array[pos+1] = getRandom(rng_states,pos+1)
+        an_array[pos+2] = getRandom(rng_states,pos+2)
+        an_array[pos+3] = getRandom(rng_states,pos+3)
 
 
 def eval_genomes(genomes,config):
