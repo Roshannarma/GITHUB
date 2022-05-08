@@ -3,6 +3,8 @@ from functools import partial
 import neat
 import generation as gp
 import time
+# from numba import jit
+
 
 DICE = 5
 
@@ -10,6 +12,7 @@ PLAYERS = 4
 
 VALUES = {0:"RAISE",1:"BS",2:"EXACT"}
 
+# @jit(nopython=True)
 def get_Output(player,roundInfo):
     net = player["neural"]
     outputList = []
@@ -30,7 +33,7 @@ def get_Output(player,roundInfo):
     return output
 
 
-
+# @jit(nopython=True)
 def make_action(player,roundInfo,gameInfo):
     output = get_Output(player, roundInfo)
 
@@ -41,6 +44,9 @@ def make_action(player,roundInfo,gameInfo):
 
     if (VALUES[action] == "RAISE"):
         betPip = output.index(max(output[3:-1]))-2
+        # betNumber = round(20*output[-1])
+        print(output)
+        print(output[-1])
         betNumber = round(20*output[-1])
         # print(betNumber)
         # if(betNumber!=0 and betNumber != 20):
@@ -84,7 +90,7 @@ def make_action(player,roundInfo,gameInfo):
 
 
 
-
+# @jit(nopython=True)
 def play_round(players,roundInfo,gameInfo):
     i = gameInfo["startID"] -1
     while True:
@@ -97,6 +103,8 @@ def play_round(players,roundInfo,gameInfo):
         if roundInfo["result"]["end"]:
             return roundInfo
 
+
+# @jit(nopython=True)
 def play_game(players,gameInfo):
     while True:
         roundInfo = gp.round(players,gameInfo["startID"])
@@ -118,7 +126,7 @@ def play_game(players,gameInfo):
         else:
             raise Exception("houston we have a problem about: play_game")
 
-
+# @jit(nopython=True)
 def eval_group(genomes,config):
     players = {}
     i = 0
@@ -144,16 +152,21 @@ def eval_group(genomes,config):
 
 
 
-
+# @jit(nopython=True)
 def eval_genomes(genomes,config):
     genomeChunks = []
     chunk_size = 4
     for i in range(0, len(genomes), chunk_size):
         genomeChunks.append(genomes[i:i+chunk_size])
     part_group = partial(eval_group,config=config)
-    pool = multiprocessing.Pool()
-    genomeChunks = pool.map(part_group,genomeChunks)
-    pool.close()
+    tempgenome = []
+    for i in range(len(genomes)//chunk_size):
+        tempgenome.append(part_group(genomeChunks[i]))
+    genomeChunks = tempgenome
+    # print(genomeChunks)
+    # pool = multiprocessing.Pool()
+    # genomeChunks = pool.map(part_group,genomeChunks)
+    # pool.close()
 
     WinnersBracket = []
     if len(genomeChunks)>=2:

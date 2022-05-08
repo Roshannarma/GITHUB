@@ -75,21 +75,39 @@ def run(config_file,genome_path):
 
         # print(f"output: {VALUES[end_index]} | currentCoins: {currentCoins} | headCount: {headCount} | totalCoins: {totalCoins} | currentBet: {currentBet} | playersAlive: {playersAlive}")
 
-    visualize.draw_net(config, genome, True,node_names = VALUES)
+    # visualize.draw_net(config, genome, True,node_names = VALUES)
         # headCount = coinflip(currentCoins)
         # passCount = 0
         # passCount = random.randint(0,2)
 
+    # for i in range(10):
+    #     num = random.randint(10,20)
+    #     dies = [random.randint(0,num//3) for i in range(6)]
+    #     playersLeft = random.randint(2,4)
+    #     newList = [0]*6
+    #     newList[[random.randint(5)]] = 1
+    #     currentBet = random.randint(1,20)
+    #
+    #     net.activate(num,*dies,playersLeft,*newList,currentBet)
     for i in range(10):
-        num = random.randint(10,20)
+        num = random.randint(1,20)
         dies = [random.randint(0,num//3) for i in range(6)]
         playersLeft = random.randint(2,4)
         newList = [0]*6
-        newList[[random.randint(5)]] = 1
+        currentPip = random.randint(0,5)
+        newList[currentPip] = 1
         currentBet = random.randint(1,20)
 
-        net.activate(num,*dies,playersLeft,*newList,currentBet)
-
+        output = net.activate([num,*dies,playersLeft,*newList,currentBet])
+        action = output.index(max(output[0:2]))
+        betPip = output.index(max(output[3:-1])) #-2
+        # print(output[-1])
+        print(output)
+        betNumber = round(20*output[-1])
+        if action == 0:
+            print(f"action: {VALUES[action]} | currentBet: {currentBet} | currentpip: {currentPip+1} | pip: {betPip} | bet: {betNumber} | playersAlive: {playersLeft}")
+        else:
+            print(f"action: {VALUES[action]} | currentBet: {currentBet} | currentpip: {currentPip+1} | playersAlive: {playersLeft}")
 
     # for i in range(100):
     #     currentCoins = random.randint(1,5)
