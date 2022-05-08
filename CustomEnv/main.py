@@ -6,8 +6,6 @@ import neat
 # import game
 import LDice
 import pickle
-import CustomGenome
-import ConfigGenome
 # import multiprocessing
 # import time
 # from functools import partial
@@ -21,12 +19,9 @@ LOCALDIR = os.path.dirname(__file__)
 
 def run(config_file):
 
-    config = neat.Config(CustomGenome.CustomGenome , neat.DefaultReproduction,
+    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_file)
-
-
-
     p = neat.Population(config)
 
     p.add_reporter(neat.StdOutReporter(True))
@@ -38,9 +33,8 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(5,filename_prefix=config_path))
     ITERATIONS = int(input("What number of iterations do you want?:\n"))
     # ITERATIONS = 15
-
     temp = LDice.LDice(config)
-    winner = p.run(temp.eval_genomes, ITERATIONS)
+    winner = p.run(temp.eval_genomes2, ITERATIONS)
 
     print('\nBest genome:\n{!s}'.format(winner))
 

@@ -3,7 +3,7 @@ from functools import partial
 import neat
 import generation as gp
 import time
-# from numba import jit
+import random
 
 
 DICE = 5
@@ -154,6 +154,8 @@ def eval_group(genomes,config):
 
 # @jit(nopython=True)
 def eval_genomes(genomes,config):
+    # for genome_id,genome in genomes:
+        # genome.fitness = random.randint(1,100)
     genomeChunks = []
     chunk_size = 4
     for i in range(0, len(genomes), chunk_size):

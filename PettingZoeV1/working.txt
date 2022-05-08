@@ -38,23 +38,23 @@ Player 2 takes in input of bet(number of dice and pip on dice)
 Data storage:
 
 network inputs:
-# total number of Dice
-# of 1's
-# of 2's
-# of 3's
-# of 4's
-# of 5's
-# of 6's
-# of players left
+0: # total number of Dice
+1: # of 1's
+2: # of 2's
+3: # of 3's
+4: # of 4's
+5: # of 5's
+6: # of 6's
+7: # of players left
 
 # outputs for pips:
-  is1
-  is2
-  is3
-  is4
-  is5
-  is6
-#current bet number
+8:  is1
+9:  is2
+10: is3
+11: is4
+12: is5
+13: is6
+14: #current bet number
 
 
 network outputs:
