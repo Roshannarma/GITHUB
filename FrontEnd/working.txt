@@ -1,0 +1,49 @@
+Rules for Liar's Dice:
+
+
+
+
+
+
+
+Our version:
+
+
+* Played with 4 players
+* Each player has five dice, for a total max of 20
+* On each round, everyone roles all of their dice and keeps the results hidden
+* First player will guess how many total of one dice face were rolled
+  * Iterates through the rest of the players: Bet (increases dice face number or pip), Challenge (Reveals to see if the current bet is true), exact (claims exact of a certain number of dice)
+
+
+
+Raise:
+
+
+Challenge:
+
+
+Exact:
+
+
+
+
+
+info: {"Bet":5,"pip":2,"betPlayer":"player2"}
+
+ACTIONS = {0:"raise",1:"challenge",2:"exact"}
+
+
+hiddenInfo:
+"diceValues" -> list of integers
+
+
+visibleInfo:
+"numPlayers" -> integer
+"playerNames" -> list of strings
+"curPlayer" -> integer
+"totalDice" -> integer
+"pip" -> integer
+"value" -> integer
+"diceList" -> list of integer
+"prevBets" -> list of (player_name,action)
