@@ -81,7 +81,7 @@ def run(config_file,genome_path):
 
         # print(f"output: {VALUES[end_index]} | currentCoins: {currentCoins} | headCount: {headCount} | totalCoins: {totalCoins} | currentBet: {currentBet} | playersAlive: {playersAlive}")
 
-    visualize.draw_net(config, genome, True,node_names = VALUES)
+    # visualize.draw_net(config, genome, True,node_names = VALUES)
         # headCount = coinflip(currentCoins)
         # passCount = 0
         # passCount = random.randint(0,2)
