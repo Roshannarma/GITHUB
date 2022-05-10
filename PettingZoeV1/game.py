@@ -4,13 +4,40 @@ import neat
 import generation as gp
 import time
 import random
-
+import visualize
 
 DICE = 5
 
 PLAYERS = 4
 
-VALUES = {0:"RAISE",1:"BS",2:"EXACT"}
+VALUES = {
+    -1: "total",
+    -2: "# of 1's",
+    -3: "# of 2's",
+    -4: "# of 3's",
+    -5: "# of 4's",
+    -6: "# of 5's",
+    -7: "# of 6's",
+    -8: "# of players left",
+    -9: "is1",
+    -10: "is2",
+    -11: "is3",
+    -12: "is4",
+    -13: "is5",
+    -14: "is6",
+    -15: "bet number",
+
+    0: "RAISE",
+    1: "BS",
+    2: "EXACT",
+    3: "is1",
+    4: "is2",
+    5: "is3",
+    6: "is4",
+    7: "is5",
+    8: "is6",
+    9: "# of dice"
+}
 
 def get_Output(player,roundInfo):
     net = player["neural"]
@@ -43,12 +70,22 @@ def make_action(player,roundInfo,gameInfo):
 
     if (VALUES[action] == "RAISE"):
         betPip = output.index(max(output[3:-1]))-2
-        betNumber = round(20*output[-1])
+        betNumber = round(output[-1])
         # print(betNumber)
         # if(betNumber!=0 and betNumber != 20):
             # print(betNumber)
 
+
+        if betNumber > roundInfo["totalDice"]:
+            # print()
+            roundInfo["result"]["end"] = True
+            roundInfo["result"]["lost"] = True
+            roundInfo["result"]["ender"] = player["id"]
+            return roundInfo
+
+
         if betNumber < roundInfo["betNumber"] or (betNumber == roundInfo["betNumber"] and betPip <= roundInfo["betPip"]):
+            # print(betNumber)
             roundInfo["result"]["end"] = True
             roundInfo["result"]["lost"] = True
             roundInfo["result"]["ender"] = player["id"]
@@ -60,6 +97,12 @@ def make_action(player,roundInfo,gameInfo):
         return roundInfo
 
     elif (VALUES[action] == "BS"):
+        if betNumber == 0 and roundInfo["betNumber"] == -1:
+            roundInfo["result"]["end"] = True
+            roundInfo["result"]["lost"] = True
+            roundInfo["result"]["ender"] = player["id"]
+            return roundInfo
+
         if roundInfo["betNumber"] > roundInfo["dice"][roundInfo["betPip"]]:
             roundInfo["result"]["end"] = True
             roundInfo["result"]["lost"] = True
@@ -70,6 +113,11 @@ def make_action(player,roundInfo,gameInfo):
             roundInfo["result"]["ender"] = player["id"]
         return roundInfo
     elif (VALUES[action] == "EXACT"):
+        if betNumber == 0 and roundInfo["betNumber"] == -1:
+            roundInfo["result"]["end"] = True
+            roundInfo["result"]["lost"] = True
+            roundInfo["result"]["ender"] = player["id"]
+            return roundInfo
         if roundInfo["betNumber"] == roundInfo["dice"][roundInfo["betPip"]]:
             roundInfo["result"]["end"] = True
             roundInfo["result"]["lost"] = False
@@ -148,8 +196,6 @@ def eval_group(genomes,config):
 
 
 def eval_genomes(genomes,config):
-    # for genome_id,genome in genomes:
-        # genome.fitness = random.randint(1,100)
     genomeChunks = []
     chunk_size = 4
     for i in range(0, len(genomes), chunk_size):
@@ -174,6 +220,31 @@ def eval_genomes(genomes,config):
         eval_genomes(WinnersBracket,config)
         for genome_id,genome in WinnersBracket:
             genome.fitness += 1000
+    # else:
+    #     winner = -1
+    #     loc = -1
+    #     value = 0
+    #     for genome_id,genome in genomeChunks[0]:
+    #         loc += 1
+    #         if genome.fitness > value:
+    #             winner = loc
+    #             value = genome.fitness
+
+        #
+        # genome = genomeChunks[0][loc][1]
+        # net = neat.nn.FeedForwardNetwork.create(genome, config)
+        # for i in range(10):
+        #     num = random.randint(10,20)
+        #     dies = [random.randint(0,num//3) for i in range(6)]
+        #     playersLeft = random.randint(2,4)
+        #     newList = [0]*6
+        #     newList[[random.randint(5)]] = 1
+        #     currentBet = random.randint(1,20)
+        #
+        #     output = net.activate(num,*dies,playersLeft,*newList,currentBet)
+        # print(genomeChunks[0])
+        # print(genomeChunks[0][loc])
+        # visualize.draw_net(config, genomeChunks[0][loc][1], True,node_names = VALUES)
 
     numGenomes = len(genomes)
     for i in range(0, numGenomes, 1):

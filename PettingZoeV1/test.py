@@ -44,6 +44,12 @@ def coinflip(amount):
             result += 1
     return result
 
+def rollDice(amount):
+    diceList = [0]*6
+    for _ in range(amount):
+        num = random.randint(0,5)
+        diceList[num] += 1
+    return diceList
 
 
 def run(config_file,genome_path):
@@ -54,7 +60,7 @@ def run(config_file,genome_path):
     with open(genome_path, "rb") as f:
         genome = pickle.load(f)
 
-    print(genome)
+    # print(genome)
 
 
     result = {0:0,1:0,2:0}
@@ -80,15 +86,19 @@ def run(config_file,genome_path):
         # passCount = 0
         # passCount = random.randint(0,2)
 
-    for i in range(10):
+    for i in range(100):
         num = random.randint(10,20)
-        dies = [random.randint(0,num//3) for i in range(6)]
+        dies = rollDice(5)
         playersLeft = random.randint(2,4)
         newList = [0]*6
-        newList[[random.randint(5)]] = 1
-        currentBet = random.randint(1,20)
+        newList[random.randint(0,5)] = 1
+        currentBet = random.randint(0,10)
 
-        net.activate(num,*dies,playersLeft,*newList,currentBet)
+        output = net.activate([num,*dies,playersLeft,*newList,currentBet])
+
+        action = output.index(max(output[0:2]))
+
+        print(f"output: {VALUES[action]} | raiseNum: {round(output[-1])} | currentBet: {currentBet} | currentPip: {newList.index(1)} | dies: {dies} | totalDice:{num}")
 
 
     # for i in range(100):

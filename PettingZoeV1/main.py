@@ -3,8 +3,8 @@ import os
 import neat
 # import random
 # import visualize
-# import game
-import LDice
+import game
+# import LDice
 import pickle
 # import multiprocessing
 # import time
@@ -34,8 +34,8 @@ def run(config_file):
     ITERATIONS = int(input("What number of iterations do you want?:\n"))
     # ITERATIONS = 15
 
-    temp = LDice.LDice(config)
-    winner = p.run(temp.eval_genomes, ITERATIONS)
+    # temp = LDice.LDice(config)
+    winner = p.run(game.eval_genomes, ITERATIONS)
 
     print('\nBest genome:\n{!s}'.format(winner))
 

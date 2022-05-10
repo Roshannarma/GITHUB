@@ -4,11 +4,11 @@ fitness_threshold     = 1000000000000
 pop_size              = 64
 reset_on_extinction   = False
 
-[DefaultGenome]
+[CustomGenome]
 # node activation options
 activation_default      = sigmoid
-activation_mutate_rate  = 0.0
-activation_options      = sigmoid
+activation_mutate_rate  = 0.1
+activation_options      = sigmoid,relu
 
 # node aggregation options
 aggregation_default     = sum
